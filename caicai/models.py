@@ -20,38 +20,37 @@ class Admins(models.Model):
 
 class User_infor(models.Model):
     User_id = models.CharField(max_length=20, primary_key=True)
-    address = models.CharField(max_length=20)
-    pyhonenumber = models.IntegerField(length=11)
     Username = models.CharField(max_length=20)
     Photoprofile = models.CharField(max_length=100)
 
 
 class Goods_car(models.Model):
-    User_id = models.CharField(max_length=20, primary_key=True)
-    Goods_id = models.CharField(max_length=10)
+    Goods_id = models.CharField(max_length=20)
     Order_id = models.CharField(max_length=10)
 
 
 class Order(models.Model):
-    User_id = models.CharField(max_length=20, primary_key=True)
-    Goods_id = models.CharField(max_length=10)
-    Order_id = models.CharField(max_length=10)
-
+    User_id = models.CharField(max_length=10)
+    Goods_= models.CharField(max_length=10)
+    Status = models.IntegerField()
+    Order_id = models.CharField(max_length=10, primary_key=True)
+    Actual_payment=models.DecimalField(max_digits=10, decimal_places=2)
+    Address= models.CharField(max_length=20)
+    Tel = models.CharField(max_length=20)
 
 class caicai(models.Model):
     Goods_id = models.CharField(max_length=20, primary_key=True)
     Goods_name = models.CharField(max_length=20)
     Goods_price = models.DecimalField(max_digits=10, decimal_places=2)
-    Discount = models.DecimalField(max_digits=10, decimal_places=2)
-    Goods_picture = models.CharField(max_length=20)
+    Discount = models.DecimalField(max_digits=10, decimal_places=2,blank=True)
+    Goods_picture = models.CharField(max_length=20,blank=True)
     Reserves = models.DecimalField(max_digits=10, decimal_places=2)
-    Goods_location = models.CharField(max_length=20)
-    Goods_count = models.DecimalField(max_digits=10, decimal_places=2)
+    Goods_location = models.CharField(max_length=20,blank=True)
+    Goods_count = models.DecimalField(max_digits=10, decimal_places=2,blank=True)
     Goods_states = models.IntegerField()
 
 
 class UserRecord(models.Model):
-    id = models.AutoField()
     User_id = models.CharField(max_length=20)
     Address =  models.CharField(max_length=20)
     Tel =  models.CharField(max_length=20)
