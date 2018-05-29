@@ -20,12 +20,15 @@ class Admins(models.Model):
 
 class User_infor(models.Model):
     User_id = models.CharField(max_length=20, primary_key=True)
+    address = models.CharField(max_length=20)
+    pyhonenumber = models.IntegerField(length=11)
     Username = models.CharField(max_length=20)
     Photoprofile = models.CharField(max_length=100)
 
 
 class Goods_car(models.Model):
-    Goods_id = models.CharField(max_length=20)
+    User_id = models.CharField(max_length=20, primary_key=True)
+    Goods_id = models.CharField(max_length=10)
     Order_id = models.CharField(max_length=10)
 
 
@@ -52,7 +55,8 @@ class caicai(models.Model):
 
 
 class UserRecord(models.Model):
+    id = models.AutoField()
     User_id = models.CharField(max_length=20)
-    Address = models.CharField(max_length=20)
-    Tel = models.CharField(max_length=20)
+    Address =  models.CharField(max_length=20)
+    Tel =  models.CharField(max_length=20)
     Name = models.CharField(max_length=20)
