@@ -21,7 +21,7 @@ class Admins(models.Model):
 class User_infor(models.Model):
     User_id = models.CharField(max_length=20, primary_key=True)
     address = models.CharField(max_length=20)
-    pyhonenumber = models.IntegerField(length=11)
+    pyhonenumber = models.IntegerField()
     Username = models.CharField(max_length=20)
     Photoprofile = models.CharField(max_length=100)
 
@@ -55,7 +55,6 @@ class caicai(models.Model):
 
 
 class UserRecord(models.Model):
-    id = models.AutoField()
     User_id = models.CharField(max_length=20)
     Address =  models.CharField(max_length=20)
     Tel =  models.CharField(max_length=20)

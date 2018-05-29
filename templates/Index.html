@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<a>{a}</a>
+{% for user in users %}
+<ul>
+    <li>
+        <a>{{ user.User_id }}</a>
+    </li>
+</ul>
+{% endfor %}
+<a></a>
 </body>
 </html>
