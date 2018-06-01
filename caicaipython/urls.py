@@ -19,5 +19,5 @@ from Contor import index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index/', index.ddd),
+    url(r'^classify/', index.classify),
 ]

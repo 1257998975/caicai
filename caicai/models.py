@@ -40,6 +40,7 @@ class Order(models.Model):
     Actual_payment = models.DecimalField(max_digits=10, decimal_places=2)
     Address = models.CharField(max_length=20)
     Tel = models.CharField(max_length=20)
+    rate=models.IntegerField()
 
 
 class caicai(models.Model):
