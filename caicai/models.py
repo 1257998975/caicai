@@ -20,8 +20,6 @@ class Admins(models.Model):
 
 class User_infor(models.Model):
     User_id = models.CharField(max_length=20, primary_key=True)
-    address = models.CharField(max_length=20)
-    pyhonenumber = models.IntegerField()
     Username = models.CharField(max_length=20)
     Photoprofile = models.CharField(max_length=100)
 
@@ -30,6 +28,7 @@ class Goods_car(models.Model):
     User_id = models.CharField(max_length=20, primary_key=True)
     Goods_id = models.CharField(max_length=10)
     Order_id = models.CharField(max_length=10)
+    Count = models.IntegerField()
 
 
 class Order(models.Model):
@@ -40,8 +39,8 @@ class Order(models.Model):
     Actual_payment = models.DecimalField(max_digits=10, decimal_places=2)
     Address = models.CharField(max_length=20)
     Tel = models.CharField(max_length=20)
-    rate=models.IntegerField()
-
+    Rate=models.IntegerField()
+    Count = models.IntegerField()
 
 class caicai(models.Model):
     Goods_id = models.CharField(max_length=20, primary_key=True)
