@@ -2,14 +2,14 @@ url(r'^SalesMax/', index.SalesMax)返回销量最多的菜，返回数据使用�
 
 
 
-url(r'^GoodCar/', index.GoodCar),返回购物车,返回数据使用格式：遍历data后.count对应菜品数量  .caicai表字段名 猜猜表数据
+url(r'^GoodCar/', index.GoodCar), 需要用户id  返回购物车,返回数据使用格式：遍历data后.count对应菜品数量  .caicai表字段名 猜猜表数据
 eg:
 for dat in data:
     dat.count   //菜品数量
     dat.goods.Goods_id   //caicai表数据
 
 
-url(r'^Order/', index.Order),返回订单,返回数据使用格式:遍历UserRecord后.使用记录表字段,遍历order后.order_tabel.order字段,遍历order后遍历order.Goods再.caicai表字段
+url(r'^Order/', index.Order), 需要用户id  返回订单,返回数据使用格式:遍历UserRecord后.使用记录表字段,遍历order后.order_tabel.order字段,遍历order后遍历order.Goods再.caicai表字段
 eg;
 for user in UserRecord:
     user.Address  //用户使用过的地址

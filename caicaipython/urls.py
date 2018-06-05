@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^SalesMax/', index.SalesMax),
     url(r'^GoodCar/', index.GoodCar),
     url(r'^Order/', index.Order),
+    url(r'^Delete/', index.DeleteOrder),
 ]

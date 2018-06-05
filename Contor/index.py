@@ -49,3 +49,12 @@ def Order(request):
     user_address = models.UserRecord.objects.filter(User_id=User_id)
     data = {"order": tabel,"UserRecord":user_address}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+
+#取消订单
+def DeleteOrder(request):
+    order_id=request.GET.get('order_id')
+    models.Order.objects.get(order_id=order_id).delete()
+    data = {"Bool": True}
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
