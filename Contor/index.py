@@ -3,6 +3,7 @@ from django.template import loader
 from django.http import HttpResponse
 from caicai import models
 from Contor.Class import goods_car
+from Contor.Class import orders
 import simplejson
 
 # 返回销量最多的菜
@@ -36,6 +37,15 @@ def GoodCar(request):
 
 def Order(request):
     User_id = request.GET.get('User_id')
-    orders = models.Order.objects.filter(User_id=User_id)
     tabel=[]
-    goods = models.Goods_car.objects.filter().distinct()
+    order_id = models.Goods_car.objects.filter(User_id=User_id).distinct()
+    for order in order_id:
+        caicaiList=[]
+        caicai_id = models.Order.objects.filter(Order_id=order.Order_id)
+        for caicai in caicai_id:
+            caicaiList.append(models.caicai.objects.filter(Goods_id=order.Goods_id))
+        orderList=orders(order,caicaiList)
+        tabel.append(orderList)
+    user_address = models.UserRecord.objects.filter(User_id=User_id)
+    data = {"order": tabel,"UserRecord":user_address}
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
