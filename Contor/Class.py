@@ -5,6 +5,6 @@ class goods_car(object):
 
 
 class orders(object):
-    def __init__(self, order_tabel,Goods):
+    def __init__(self,order_tabel,Goods):
         self.order_tabel = order_tabel
         self.Goods = Goods

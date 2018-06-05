@@ -43,7 +43,7 @@ def Order(request):
         caicaiList=[]
         caicai_id = models.Order.objects.filter(Order_id=order.Order_id)
         for caicai in caicai_id:
-            caicaiList.append(models.caicai.objects.filter(Goods_id=order.Goods_id))
+            caicaiList.append(models.caicai.objects.filter(Goods_id=caicai.Goods_id))
         orderList=orders(order,caicaiList)
         tabel.append(orderList)
     user_address = models.UserRecord.objects.filter(User_id=User_id)
