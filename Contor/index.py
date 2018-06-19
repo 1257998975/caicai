@@ -16,7 +16,8 @@ def SalesMax(request):
             max = thisGoodsCount
             maxGoods_id = oder.Goods_id
     data = {"data": models.caicai.objects.get(Goods_id=maxGoods_id)}
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    return HttpResponse(data)
+    #return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
 # 返回购物车
@@ -28,6 +29,7 @@ def GoodCar(request):
         g=goods_car(good.Count,models.caicai.objects.get(Goods_id=good.Goods_id))
         cars.append(g)
     data = {"data": cars}
+
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
@@ -48,6 +50,7 @@ def Order(request):
         tabel.append(orderList)
     user_address = models.UserRecord.objects.filter(User_id=User_id)
     data = {"order": tabel,"UserRecord":user_address}
+
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
@@ -55,6 +58,6 @@ def Order(request):
 #取消订单
 def DeleteOrder(request):
     order_id=request.GET.get('order_id')
-    models.Order.objects.get(order_id=order_id).delete()
+    models.Order.objects.filter(Order_id=order_id).delete()
     data = {"Bool": True}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
