@@ -6,7 +6,6 @@ from Contor.Class import goods_car
 from Contor.Class import orders
 from django.core import serializers
 import simplejson
-import templates
 
 
 # 返回销量最多的菜
@@ -22,15 +21,15 @@ def SalesMax(request):
     # return HttpResponse(data)
 
     if True:
-        data = serializers.serialize("json", models.caicai.objects.all())
+
+        data={"count":1,"titlr":"分数","gg":"sfds"}
+
+
+        # data = serializers.serialize("json", models.caicai.objects.all())
 
 
         return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
-    else:
-     tp = loader.get_template("Index.html")
-     caicai=models.caicai.objects.get(Goods_id="007")
-     html = tp.render({"data": caicai})
-     return HttpResponse(html)
+    
 
 
 # 返回购物车
@@ -41,9 +40,10 @@ def GoodCar(request):
     for good in goods:
         g = goods_car(good.Count, models.caicai.objects.get(Goods_id=good.Goods_id))
         cars.append(g)
-    data = {"data": cars}
-
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    json = {"data": cars}
+    # data = serializers.serialize("json", json)
+    return cars
+    # return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
 # 返回订单表
@@ -61,7 +61,9 @@ def Order(request):
         orderList = orders(order, caicaiList)
         tabel.append(orderList)
     user_address = models.UserRecord.objects.filter(User_id=User_id)
-    data = {"order": tabel, "UserRecord": user_address}
+    json = {"order": tabel, "UserRecord": user_address}
+    data = serializers.serialize("json", json)
+
 
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
