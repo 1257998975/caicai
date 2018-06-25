@@ -4,60 +4,71 @@ from django.http import HttpResponse
 from caicai import models
 from Contor.Class import goods_car
 from Contor.Class import orders
+from django.core import serializers
 import simplejson
+import templates
+
 
 # 返回销量最多的菜
 def SalesMax(request):
-    oders = models.Order.objects.all().distinct()
-    max = 0
-    for oder in oders:
-        thisGoodsCount = models.Order.objects.filter(Goods_id=oder.Goods_id).count()
-        if (max < thisGoodsCount):
-            max = thisGoodsCount
-            maxGoods_id = oder.Goods_id
-    data = {"data": models.caicai.objects.get(Goods_id=maxGoods_id)}
-    return HttpResponse(data)
-    #return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    # oders = models.Order.objects.all().distinct()
+    # max = 0
+    # for oder in oders:
+    #     thisGoodsCount = models.Order.objects.filter(Goods_id=oder.Goods_id).count()
+    #     if (max < thisGoodsCount):
+    #         max = thisGoodsCount
+    #         maxGoods_id = oder.Goods_id
+    # data = {"data": models.caicai.objects.get(Goods_id=maxGoods_id)}
+    # return HttpResponse(data)
+
+    if True:
+        data = serializers.serialize("json", models.caicai.objects.all())
+
+
+        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    else:
+     tp = loader.get_template("Index.html")
+     caicai=models.caicai.objects.get(Goods_id="007")
+     html = tp.render({"data": caicai})
+     return HttpResponse(html)
 
 
 # 返回购物车
 def GoodCar(request):
     User_id = request.GET.get('User_id')
     goods = models.Goods_car.objects.filter(User_id=User_id)
-    cars=[]
+    cars = []
     for good in goods:
-        g=goods_car(good.Count,models.caicai.objects.get(Goods_id=good.Goods_id))
+        g = goods_car(good.Count, models.caicai.objects.get(Goods_id=good.Goods_id))
         cars.append(g)
     data = {"data": cars}
 
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
-
-#返回订单表
+# 返回订单表
 
 
 def Order(request):
     User_id = request.GET.get('User_id')
-    tabel=[]
+    tabel = []
     order_id = models.Goods_car.objects.filter(User_id=User_id).distinct()
     for order in order_id:
-        caicaiList=[]
+        caicaiList = []
         caicai_id = models.Order.objects.filter(Order_id=order.Order_id)
         for caicai in caicai_id:
             caicaiList.append(models.caicai.objects.filter(Goods_id=caicai.Goods_id))
-        orderList=orders(order,caicaiList)
+        orderList = orders(order, caicaiList)
         tabel.append(orderList)
     user_address = models.UserRecord.objects.filter(User_id=User_id)
-    data = {"order": tabel,"UserRecord":user_address}
+    data = {"order": tabel, "UserRecord": user_address}
 
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
-
-#取消订单
+# 取消订单
 def DeleteOrder(request):
-    order_id=request.GET.get('order_id')
+    order_id = request.GET.get('order_id')
     models.Order.objects.filter(Order_id=order_id).delete()
     data = {"Bool": True}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
