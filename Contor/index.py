@@ -7,6 +7,7 @@ from Contor.Class import orders
 from django.core import serializers
 import simplejson
 from PIL import Image
+import json
 # img=Image.open('d:/dog.png')
 # img.show()
 
@@ -25,7 +26,10 @@ def SalesMax(request):
     # return HttpResponse(data)
     data = []
 
-    data.append({"count": 1, "titlr": "分数", "gg": "sfds","img":Image.open('../images/001.jpg')})
+    img =open('images/001.jpg')
+    print(img.read())
+
+    data.append({"count": 1, "titlr": "分数", "gg": "sfds","img":json.dumps(img, ensure_ascii=False)})
     data.append({"count": 2, "titlr": "分数", "gg": "sfds"})
     # data = serializers.serialize("json", models.caicai.objects.all())
 
