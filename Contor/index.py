@@ -46,7 +46,7 @@ def GoodCar(request):
         g = models.caicai.objects.get(Goods_id=good.Goods_id)
         price = g.Goods_price * good.Count * g.Discount
         print(g)
-        car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price}
+        car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price ,"good_id":g.Goods_id}
         cars.append(car)
 
 
@@ -112,3 +112,22 @@ def LookCaiCai(request):
           "price":caicai.Goods_price,"Discount":caicai.Discount,"pay_for":caicai.Goods_price*caicai.Discount,"Reserves":caicai.Reserves,"Goods_count":caicai.Goods_count}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
+
+
+#返回地址
+def Adress(request):
+    id=request.GET.get('id')
+    data=[]
+    if request.method == 'POST':
+        adress=request.GET.get('adress')
+        try:
+            models.UserRecord.objects.create(id, adress, None,None)
+            return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
+        except:
+            return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
+    else:
+        userlist=models.UserRecord.objects.filter(User_id=id)
+        for user in userlist:
+            da={"address":user.Address}
+            data.append(da)
+        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
