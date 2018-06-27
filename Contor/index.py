@@ -38,19 +38,19 @@ def SalesMax(request):
 
 # 返回购物车
 def GoodCar(request):
-    User_id = request.GET.get('User_id')
+    User_id = request.GET.get('id')
     goods = models.Goods_car.objects.filter(User_id=User_id)
     cars = []
-    # pay_for=0
+
     for good in goods:
         g = models.caicai.objects.get(Goods_id=good.Goods_id)
         price = g.Goods_price * good.Count * g.Discount
-        # pay_for=pay_for+price
+        print(g)
         car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price}
         cars.append(car)
-    # cars.append({"pay_for":pay_for})
-    data = serializers.serialize("json", cars)
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+    return HttpResponse(simplejson.dumps(cars, ensure_ascii=False), content_type="application/json")
 
 
 # 返回订单表
