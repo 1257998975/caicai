@@ -46,7 +46,7 @@ def GoodCar(request):
         g = models.caicai.objects.get(Goods_id=good.Goods_id)
         price = g.Goods_price * good.Count * g.Discount
         print(g)
-        car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price}
+        car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price ,"good_id":g.Goods_id}
         cars.append(car)
 
 
