@@ -6,6 +6,10 @@ from Contor.Class import goods_car
 from Contor.Class import orders
 from django.core import serializers
 import simplejson
+from PIL import Image
+# img=Image.open('d:/dog.png')
+# img.show()
+
 
 
 # 返回销量最多的菜
@@ -21,7 +25,7 @@ def SalesMax(request):
     # return HttpResponse(data)
     data = []
 
-    data.append({"count": 1, "titlr": "分数", "gg": "sfds"})
+    data.append({"count": 1, "titlr": "分数", "gg": "sfds","img":Image.open('../images/001.jpg')})
     data.append({"count": 2, "titlr": "分数", "gg": "sfds"})
     # data = serializers.serialize("json", models.caicai.objects.all())
 
@@ -57,7 +61,6 @@ def Order(request):
         for caicai in caicai_id:
 
             caicai_ = models.caicai.objects.get(Goods_id=caicai.Goods_id)
-            print(caicai.Count)
             data = {"name": caicai_.Goods_name, "picture": caicai_.Goods_picture, "count": caicai.Count,
                     "price": caicai_.Goods_price * caicai_.Discount * caicai.Count, "order_id": caicai.Order_id,"address":caicai.Address,"phone":caicai.Tel}
             tabel.append(data)
