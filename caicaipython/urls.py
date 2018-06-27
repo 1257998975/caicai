@@ -28,6 +28,6 @@ urlpatterns = [
     url(r'^Lookcaicais/', index.LookCaiCais),
     url(r'^Lookcaicai/', index.LookCaiCai),
     url(r'^index/', mainControl.recommand),
-
+    url(r'^address/', index.Adress),
 
 ]
