@@ -1,8 +1,8 @@
 import  pymysql as pys
 import numpy
 import pandas as pd
-from DataCleaning import dataCleaning as dc
-from Calculate import CollaborativeFiltering as cfc
+from recommendSystem.DataCleaning import dataCleaning as dc
+from recommendSystem.Calculate import CollaborativeFiltering as cfc
 
 def recommand(request):
 
