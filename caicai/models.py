@@ -59,3 +59,16 @@ class UserRecord(models.Model):
     Address =  models.CharField(max_length=20)
     Tel =  models.CharField(max_length=20)
     Name = models.CharField(max_length=20)
+
+
+
+class Order_Xiebin(models.Model):
+    User_id = models.CharField(max_length=10)
+    Goods_id = models.CharField(max_length=10)
+    Status = models.IntegerField()
+    Order_id = models.CharField(max_length=10, primary_key=True)
+    Actual_payment = models.DecimalField(max_digits=10, decimal_places=2)
+    Address = models.CharField(max_length=20)
+    Tel = models.CharField(max_length=20)
+    Rate=models.IntegerField()
+    Count = models.IntegerField()

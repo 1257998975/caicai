@@ -19,17 +19,13 @@ def SalesMax(request):
     #         maxGoods_id = oder.Goods_id
     # data = {"data": models.caicai.objects.get(Goods_id=maxGoods_id)}
     # return HttpResponse(data)
+    data = []
 
-    if True:
+    data.append({"count": 1, "titlr": "分数", "gg": "sfds"})
+    data.append({"count": 2, "titlr": "分数", "gg": "sfds"})
+    # data = serializers.serialize("json", models.caicai.objects.all())
 
-        data={"count":1,"titlr":"分数","gg":"sfds"}
-
-
-        # data = serializers.serialize("json", models.caicai.objects.all())
-
-
-        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
-    
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
 # 返回购物车
@@ -37,40 +33,75 @@ def GoodCar(request):
     User_id = request.GET.get('User_id')
     goods = models.Goods_car.objects.filter(User_id=User_id)
     cars = []
+    # pay_for=0
     for good in goods:
-        g = goods_car(good.Count, models.caicai.objects.get(Goods_id=good.Goods_id))
-        cars.append(g)
-    json = {"data": cars}
-    # data = serializers.serialize("json", json)
-    return cars
-    # return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+        g = models.caicai.objects.get(Goods_id=good.Goods_id)
+        price = g.Goods_price * good.Count * g.Discount
+        # pay_for=pay_for+price
+        car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price}
+        cars.append(car)
+    # cars.append({"pay_for":pay_for})
+    data = serializers.serialize("json", cars)
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
 # 返回订单表
 
 
 def Order(request):
-    User_id = request.GET.get('User_id')
+    User_id = request.GET.get('id')
     tabel = []
-    order_id = models.Goods_car.objects.filter(User_id=User_id).distinct()
+    order_id = models.Order.objects.filter(User_id=User_id).distinct()
     for order in order_id:
-        caicaiList = []
         caicai_id = models.Order.objects.filter(Order_id=order.Order_id)
         for caicai in caicai_id:
-            caicaiList.append(models.caicai.objects.filter(Goods_id=caicai.Goods_id))
-        orderList = orders(order, caicaiList)
-        tabel.append(orderList)
-    user_address = models.UserRecord.objects.filter(User_id=User_id)
-    json = {"order": tabel, "UserRecord": user_address}
-    data = serializers.serialize("json", json)
 
+            caicai_ = models.caicai.objects.get(Goods_id=caicai.Goods_id)
+            print(caicai.Count)
+            data = {"name": caicai_.Goods_name, "picture": caicai_.Goods_picture, "count": caicai.Count,
+                    "price": caicai_.Goods_price * caicai_.Discount * caicai.Count, "order_id": caicai.Order_id,"address":caicai.Address,"phone":caicai.Tel}
+            tabel.append(data)
 
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    return HttpResponse(simplejson.dumps(tabel, ensure_ascii=False), content_type="application/json")
 
 
 # 取消订单
 def DeleteOrder(request):
-    order_id = request.GET.get('order_id')
+    order_id = request.GET.get('Order_id')
     models.Order.objects.filter(Order_id=order_id).delete()
     data = {"Bool": True}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+# 加入购物车
+def AddGoodCar(request):
+    try:
+        User_id = request.GET.get('User_id')
+        Good_id = request.GET.get('Good_id')
+        Count = request.GET.get('Count')
+        models.Goods_car.objects.create(User_id, Good_id, Count)
+        data = {"Bool": True}
+        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    except:
+        data = {"Bool": False}
+        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+# 返回菜品展示
+def LookCaiCais(request):
+    caicai=models.caicai.objects.all()
+    data=[]
+    for cai in caicai:
+        data.append({"Goods_name":cai.Goods_name,"picture":cai.Goods_picture,"Id":cai.Goods_id})
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+
+# 返回详细菜品展示
+def LookCaiCai(request):
+    id=request.GET.get('id')
+    caicai=models.caicai.objects.get(Goods_id=id)
+    data={"Goods_name":caicai.Goods_name,"picture":caicai.Goods_picture,"Id":caicai.Goods_id,
+          "price":caicai.Goods_price,"Discount":caicai.Discount,"pay_for":caicai.Goods_price*caicai.Discount,"Reserves":caicai.Reserves,"Goods_count":caicai.Goods_count}
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+

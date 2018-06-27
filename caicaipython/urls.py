@@ -16,11 +16,18 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from Contor import index
+# from recommendSystem import mainControl
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^SalesMax/', index.SalesMax),
     url(r'^GoodCar/', index.GoodCar),
+    url(r'^AddGoodCar/', index.AddGoodCar),
     url(r'^Order/', index.Order),
     url(r'^Delete/', index.DeleteOrder),
+    url(r'^Lookcaicais/', index.LookCaiCais),
+    url(r'^Lookcaicai/', index.LookCaiCai),
+    # url(r'^index/', mainControl.recommand),
+
+
 ]
