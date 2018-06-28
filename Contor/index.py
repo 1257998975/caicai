@@ -153,6 +153,8 @@ def CreatOrder(requst):
         actual_payment = requst.GET.get('Actual_payment')
         good_car = models.Goods_car.objects.filter(User_id=user_id)
         order_id = uuid.uuid1()
+        if not models.UserRecord.objects.get(Address=address):
+            models.UserRecord.objects.create(User_id=user_id,Address=address)
         for car in good_car:
             models.Order.objects.create(User_id=user_id, Goods_id=car.Goods_id, Status=0, Order_id=order_id,
                                         Address=address, Tel=tel, Count=car.Count, Actual_payment=actual_payment)

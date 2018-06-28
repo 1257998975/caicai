@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^index/', index.Index),
     url(r'^address/', index.Adress),
     url(r'^Sure/', index.Sure),
+    url(r'^CreatOrder/', index.CreatOrder),
 ]
