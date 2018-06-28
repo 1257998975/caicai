@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'^address/', index.Adress),
     url(r'^Sure/', index.Sure),
     url(r'^CreatOrder/', index.CreatOrder),
+    url(r'^modify/', index.modify),
+    url(r'^Decar/', index.Deletecar),
 ]

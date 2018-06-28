@@ -43,7 +43,6 @@ def GoodCar(request):
     User_id = request.GET.get('id')
     goods = models.Goods_car.objects.filter(User_id=User_id)
     cars = []
-
     for good in goods:
         g = models.caicai.objects.get(Goods_id=good.Goods_id)
         price = g.Goods_price * good.Count * g.Discount
@@ -55,8 +54,6 @@ def GoodCar(request):
 
 
 # 返回订单表
-
-
 def Order(request):
     User_id = request.GET.get('id')
     tabel = []
@@ -67,7 +64,7 @@ def Order(request):
             caicai_ = models.caicai.objects.get(Goods_id=caicai.Goods_id)
             data = {"name": caicai_.Goods_name, "picture": caicai_.Goods_picture, "count": caicai.Count,
                     "price": caicai_.Goods_price * caicai_.Discount * caicai.Count, "order_id": caicai.Order_id,
-                    "address": caicai.Address, "phone": caicai.Tel}
+                    "address": caicai.Address, "phone": caicai.Tel,"Status":caicai_id.Status}
             tabel.append(data)
 
     return HttpResponse(simplejson.dumps(tabel, ensure_ascii=False), content_type="application/json")
@@ -75,10 +72,12 @@ def Order(request):
 
 # 取消订单
 def DeleteOrder(request):
-    order_id = request.GET.get('Order_id')
-    models.Order.objects.filter(Order_id=order_id).delete()
-    data = {"Bool": True}
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+    try:
+        order_id = request.GET.get('Order_id')
+        models.Order.objects.filter(Order_id=order_id).delete()
+        return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
+    except:
+        return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
 
 
 # 加入购物车
@@ -154,7 +153,7 @@ def CreatOrder(requst):
         good_car = models.Goods_car.objects.filter(User_id=user_id)
         order_id = uuid.uuid1()
         if not models.UserRecord.objects.get(Address=address):
-            models.UserRecord.objects.create(User_id=user_id,Address=address)
+            models.UserRecord.objects.create(User_id=user_id, Address=address)
         for car in good_car:
             models.Order.objects.create(User_id=user_id, Goods_id=car.Goods_id, Status=0, Order_id=order_id,
                                         Address=address, Tel=tel, Count=car.Count, Actual_payment=actual_payment)
@@ -171,6 +170,32 @@ def Sure(requst):
         order = models.Order.objects.get(Order_id=order_id)
         order.Status = 3
         order.save()
+        return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
+    except:
+        return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
+
+
+# 修改购物车
+def modify(requst):
+    try:
+        user_id = requst.GET.get('User_id')
+        good_id = requst.GET.get('Good_id')
+        count = requst.GET.get('Count')
+        car = models.Goods_car.objects.get(User_id=user_id, Goods_id=good_id)
+        car.Count = count
+        car.save()
+        return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
+    except:
+        return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
+
+
+# 删除购物车
+def Deletecar(requst):
+    try:
+        user_id = requst.GET.get('User_id')
+        good_id = requst.GET.get('Good_id')
+        car = models.Goods_car.objects.get(User_id=user_id, Goods_id=good_id)
+        car.delete()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
         return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
