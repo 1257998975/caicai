@@ -147,4 +147,17 @@ def Index(requst):
 #创建订单
 # def CreatOrder(requst):
 #     user_id=requst.GET.get('id')
-    
+
+
+
+
+#确认收货
+def Sure(requst):
+    # try:
+        order_id=requst.GET.get('Order_id-')
+        order=models.Order.objects.get(Order_id=order_id)
+        order.Status=3
+        order.save()
+        return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
+    # except:
+    #     return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")

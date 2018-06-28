@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^Lookcaicai/', index.LookCaiCai),
     url(r'^index/', index.Index),
     url(r'^address/', index.Adress),
+    url(r'^Sure/', index.Sure),
 ]
