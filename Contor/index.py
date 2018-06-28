@@ -45,7 +45,6 @@ def GoodCar(request):
     for good in goods:
         g = models.caicai.objects.get(Goods_id=good.Goods_id)
         price = g.Goods_price * good.Count * g.Discount
-        print(g)
         car = {"count": good.Count, "name": g.Goods_name, "picture": g.Goods_picture, "price": price ,"good_id":g.Goods_id}
         cars.append(car)
 
@@ -128,6 +127,19 @@ def Adress(request):
     else:
         userlist=models.UserRecord.objects.filter(User_id=id)
         for user in userlist:
-            da={"address":user.Address}
+            da={"address推荐":user.Address}
             data.append(da)
         return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+
+#返回推荐
+def Index(requst):
+    id=requst.GET.get('id')
+    good_id=models.recommend.objects.get(User_id=id)
+    caicai=models.caicai.objects.get(Goods_id=good_id.ReGoods_id)
+    data={"good_id":caicai.Goods_id,"name":caicai.Goods_name,"picture":caicai.Goods_picture}
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+
+
+

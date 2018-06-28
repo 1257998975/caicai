@@ -72,3 +72,8 @@ class Order_Xiebin(models.Model):
     Tel = models.CharField(max_length=20)
     Rate=models.IntegerField()
     Count = models.IntegerField()
+
+
+class recommend(models.Model):
+    User_id=models.CharField(max_length=10)
+    ReGoods_id=models.CharField(max_length=10)

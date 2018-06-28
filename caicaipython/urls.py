@@ -19,7 +19,6 @@ from Contor import index
 from recommendSystem import mainControl
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^SalesMax/', index.SalesMax),
     url(r'^GoodCar/', index.GoodCar),
     url(r'^AddGoodCar/', index.AddGoodCar),
@@ -27,7 +26,6 @@ urlpatterns = [
     url(r'^Delete/', index.DeleteOrder),
     url(r'^Lookcaicais/', index.LookCaiCais),
     url(r'^Lookcaicai/', index.LookCaiCai),
-    url(r'^index/', mainControl.recommand),
+    url(r'^index/', index.Index),
     url(r'^address/', index.Adress),
-
 ]
