@@ -7,6 +7,7 @@ from Contor.Class import orders
 from django.core import serializers
 import simplejson
 from PIL import Image
+import uuid
 import json
 # img=Image.open('d:/dog.png')
 # img.show()
@@ -85,12 +86,12 @@ def AddGoodCar(request):
         User_id = request.GET.get('User_id')
         Good_id = request.GET.get('Good_id')
         Count = request.GET.get('Count')
-        models.Goods_car.objects.create(User_id, Good_id, Count)
+        models.Goods_car.objects.create(User_id=User_id, Goods_id=Good_id,Order_id=None, Count=Count)
         data = {"Bool": True}
         return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
     except:
-        data = {"Bool": False}
-        return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
+         data = {"Bool": False}
+         return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
 # 返回菜品展示
@@ -143,3 +144,7 @@ def Index(requst):
 
 
 
+#创建订单
+# def CreatOrder(requst):
+#     user_id=requst.GET.get('id')
+    
