@@ -139,7 +139,8 @@ def Index(requst):
     id=requst.GET.get('id')
     good_id=models.recommend.objects.get(User_id=id)
     caicai=models.caicai.objects.get(Goods_id=good_id.ReGoods_id)
-    data={"good_id":caicai.Goods_id,"name":caicai.Goods_name,"picture":caicai.Goods_picture}
+    data={"Goods_name":caicai.Goods_name,"picture":caicai.Goods_picture,"Id":caicai.Goods_id,
+          "price":caicai.Goods_price,"Discount":caicai.Discount,"pay_for":caicai.Goods_price*caicai.Discount,"Reserves":caicai.Reserves,"Goods_count":caicai.Goods_count}
     return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
 
 
@@ -153,11 +154,11 @@ def Index(requst):
 
 #确认收货
 def Sure(requst):
-    # try:
-        order_id=requst.GET.get('Order_id-')
+    try:
+        order_id=requst.GET.get('Order_id')
         order=models.Order.objects.get(Order_id=order_id)
         order.Status=3
         order.save()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
-    # except:
-    #     return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
+    except:
+        return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
