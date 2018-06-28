@@ -157,7 +157,7 @@ def CreatOrder(requst):
         for car in good_car:
             models.Order.objects.create(User_id=user_id, Goods_id=car.Goods_id, Status=0, Order_id=order_id,
                                         Address=address, Tel=tel, Count=car.Count, Actual_payment=actual_payment)
-            car.delete()
+        good_car.delete()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
         return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
