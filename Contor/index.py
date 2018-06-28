@@ -181,12 +181,15 @@ def modify(requst):
         user_id = requst.GET.get('User_id')
         good_id = requst.GET.get('Good_id')
         count = requst.GET.get('Count')
-        car = models.Goods_car.objects.get(User_id=user_id, Goods_id=good_id)
-        car.Count = count
-        car.save()
+        cars = models.Goods_car.objects.filter(User_id=user_id)
+        for car in cars:
+            if car.Goods_id == good_id:
+                id=car.id
+                break
+        models.Goods_car.objects.filter(id=id).update(Count=count)
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
-        return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
+       return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
 
 
 # 删除购物车
@@ -194,8 +197,12 @@ def Deletecar(requst):
     try:
         user_id = requst.GET.get('User_id')
         good_id = requst.GET.get('Good_id')
-        car = models.Goods_car.objects.get(User_id=user_id, Goods_id=good_id)
-        car.delete()
+        cars = models.Goods_car.objects.filter(User_id=user_id)
+        for car in cars:
+            if car.Goods_id==good_id:
+                id=car.id
+                break
+        models.Goods_car.objects.filter(id=id).delete()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
         return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")

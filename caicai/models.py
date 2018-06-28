@@ -25,6 +25,7 @@ class User_infor(models.Model):
 
 
 class Goods_car(models.Model):
+    id=models.AutoField(primary_key=True)
     User_id = models.CharField(max_length=20, primary_key=True)
     Goods_id = models.CharField(max_length=10)
     Order_id = models.CharField(max_length=10)
