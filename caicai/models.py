@@ -75,5 +75,5 @@ class Order_Xiebin(models.Model):
 
 
 class recommend(models.Model):
-    User_id=models.CharField(max_length=10)
+    User_id=models.CharField(max_length=10,primary_key=True)
     ReGoods_id=models.CharField(max_length=10)
