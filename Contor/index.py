@@ -64,7 +64,7 @@ def Order(request):
             caicai_ = models.caicai.objects.get(Goods_id=caicai.Goods_id)
             data = {"name": caicai_.Goods_name, "picture": caicai_.Goods_picture, "count": caicai.Count,
                     "price": caicai_.Goods_price * caicai_.Discount * caicai.Count, "order_id": caicai.Order_id,
-                    "address": caicai.Address, "phone": caicai.Tel,"Status":caicai_id.Status}
+                    "address": caicai.Address, "phone": caicai.Tel,"Status":caicai.Status}
             tabel.append(data)
 
     return HttpResponse(simplejson.dumps(tabel, ensure_ascii=False), content_type="application/json")

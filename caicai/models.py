@@ -36,7 +36,7 @@ class Order(models.Model):
     User_id = models.CharField(max_length=10)
     Goods_id = models.CharField(max_length=10)
     Status = models.IntegerField()
-    Order_id = models.CharField(max_length=10, primary_key=True)
+    Order_id = models.CharField(max_length=20, primary_key=True)
     Actual_payment = models.DecimalField(max_digits=10, decimal_places=2)
     Address = models.CharField(max_length=20)
     Tel = models.CharField(max_length=20)
