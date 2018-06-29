@@ -87,8 +87,8 @@ def AddGoodCar(request):
         User_id = request.GET.get('User_id')
         Good_id = request.GET.get('Good_id')
         Count = request.GET.get('Count')
-        models.Goods_car.objects.create(User_id=User_id, Goods_id=Good_id, Order_id=None, Count=Count)
-        data = {"Bool": True}
+        car_id=models.Goods_car.objects.create(User_id=User_id, Goods_id=Good_id, Order_id=None, Count=Count)
+        data = {"Bool": True,"id":car_id.id}
         return HttpResponse(simplejson.dumps(data, ensure_ascii=False), content_type="application/json")
     except:
         data = {"Bool": False}
@@ -151,22 +151,17 @@ def CreatOrder(requst):
         address = requst.GET.get('Address')
         tel = requst.GET.get('Tel')
         actual_payment = requst.GET.get('Actual_payment')
-        good_id= requst.GET.get('Good_id')
-        Count=0
-        id=0
+        car_id= requst.GET.get('Car_id')
         good_car = models.Goods_car.objects.filter(User_id=user_id)
         order_id = uuid.uuid1()
-        good_cars=re.split(',',good_id)
+        good_cars=re.split(',',car_id)
         if not models.UserRecord.objects.get(Address=address):
             models.UserRecord.objects.create(User_id=user_id, Address=address)
         for car in good_cars:
-            for ca in good_car:
-                if ca.Goods_id==car:
-                    Count=ca.Count
-                    id=ca.id
+            good_=models.Goods_car.objects.get(id=car)
             models.Order.objects.create(User_id=user_id, Goods_id=car, Status=0, Order_id=order_id,
-                                        Address=address, Tel=tel, Count=Count, Actual_payment=actual_payment)
-            models.Goods_car.objects.filter(id=id).delete()
+                                        Address=address, Tel=tel, Count=good_.Count, Actual_payment=actual_payment)
+            good_.delete()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
         return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
