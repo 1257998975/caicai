@@ -9,6 +9,7 @@ import simplejson
 from PIL import Image
 import uuid
 import json
+import re
 
 
 # img=Image.open('d:/dog.png')
@@ -150,14 +151,22 @@ def CreatOrder(requst):
         address = requst.GET.get('Address')
         tel = requst.GET.get('Tel')
         actual_payment = requst.GET.get('Actual_payment')
+        good_id= requst.GET.get('Good_id')
+        Count=0
+        id=0
         good_car = models.Goods_car.objects.filter(User_id=user_id)
         order_id = uuid.uuid1()
+        good_cars=re.split(',',good_id)
         if not models.UserRecord.objects.get(Address=address):
             models.UserRecord.objects.create(User_id=user_id, Address=address)
-        for car in good_car:
-            models.Order.objects.create(User_id=user_id, Goods_id=car.Goods_id, Status=0, Order_id=order_id,
-                                        Address=address, Tel=tel, Count=car.Count, Actual_payment=actual_payment)
-        good_car.delete()
+        for car in good_cars:
+            for ca in good_car:
+                if ca.Goods_id==car:
+                    Count=ca.Count
+                    id=ca.id
+            models.Order.objects.create(User_id=user_id, Goods_id=car, Status=0, Order_id=order_id,
+                                        Address=address, Tel=tel, Count=Count, Actual_payment=actual_payment)
+            models.Goods_car.objects.filter(id=id).delete()
         return HttpResponse(simplejson.dumps(True, ensure_ascii=False), content_type="application/json")
     except:
         return HttpResponse(simplejson.dumps(False, ensure_ascii=False), content_type="application/json")
